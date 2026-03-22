@@ -51,9 +51,12 @@
         .video-container {
             display: none;
             margin-bottom: clamp(20px, 3vw, 40px);
-            display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        .video-container.show {
+            display: flex;
         }
 
         video {
@@ -124,7 +127,7 @@
             console.log('按钮已禁用');
             
             // 显示视频容器
-            videoContainer.style.display = 'block';
+            videoContainer.classList.add('show');
             console.log('视频容器已显示');
             
             // 播放视频
