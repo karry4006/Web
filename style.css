@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    background: url('pic/background.webp') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    padding: clamp(15px, 4vw, 40px);
+    border-radius: 4px;
+    max-width: 90vw;
+    width: min(600px, 90vw);
+    border: 2px solid #8b8b8b;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.title {
+    font-size: clamp(24px, 6vw, 48px);
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: clamp(10px, 2vw, 20px);
+    line-height: 1.4;
+}
+
+.subtitle {
+    font-size: clamp(14px, 3vw, 20px);
+    color: #cccccc;
+    margin-bottom: clamp(30px, 5vw, 60px);
+    line-height: 1.6;
+}
+
+.progress-section {
+    display: none;
+    margin: 0 auto clamp(16px, 3vw, 24px);
+    width: min(360px, 70vw);
+}
+
+.progress-section.show {
+    display: block;
+}
+
+.progress-text {
+    color: #ffffff;
+    font-size: clamp(12px, 2.5vw, 14px);
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.progress-track {
+    width: 100%;
+    height: 16px;
+    background: #0b0b0b;
+    border: 1px solid #2f2f2f;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #2f8f2f, #45c745);
+    transition: width 0.12s linear;
+}
+
+.video-container {
+    display: none;
+    margin-bottom: clamp(20px, 3vw, 40px);
+    justify-content: center;
+    align-items: center;
+}
+
+.video-container.show {
+    display: flex;
+}
+
+video {
+    width: min(320px, 60vw);
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    border-radius: 4px;
+    background: #000;
+}
+
+.button {
+    background-color: #8b8b8b;
+    color: #ffffff;
+    border: 1px solid #5a5a5a;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s ease;
+    text-align: center;
+    display: inline-block;
+    min-width: 120px;
+}
+
+.button:hover:not(:disabled) {
+    background-color: #bebebe;
+}
+
+.button:active:not(:disabled) {
+    box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.button:disabled {
+    background-color: #707070;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
