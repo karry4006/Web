@@ -48,6 +48,40 @@
             line-height: 1.6;
         }
 
+        .progress-section {
+            display: none;
+            margin: 0 auto clamp(16px, 3vw, 24px);
+            width: min(360px, 70vw);
+        }
+
+        .progress-section.show {
+            display: block;
+        }
+
+        .progress-text {
+            color: #ffffff;
+            font-size: clamp(12px, 2.5vw, 14px);
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 16px;
+            background: #0b0b0b;
+            border: 1px solid #2f2f2f;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #2f8f2f, #45c745);
+            transition: width 0.12s linear;
+        }
+
         .video-container {
             display: none;
             margin-bottom: clamp(20px, 3vw, 40px);
@@ -60,12 +94,14 @@
         }
 
         video {
-            width: min(400px, 60vw);
+            width: min(320px, 60vw);
+            max-width: 100%;
             height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
             border-radius: 4px;
-            background: #000000;
+            background: #000;
         }
-
         .button {
             background-color: #8B8B8B;
             color: #ffffff;
@@ -101,9 +137,26 @@
     <div class="container">
         <div class="title">無法連線到伺服器</div>
         <div class="subtitle">我們正在努力修復...</div>
+
+        <div class="progress-section" id="progressSection">
+            <div class="progress-text" id="progressText">加載進度：0%</div>
+            <div class="progress-track" aria-label="loading-progress">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
         
         <div class="video-container" id="videoContainer">
-            <video id="loadingVideo">
+            <video
+                id="loadingVideo"
+                playsinline
+                webkit-playsinline
+                x5-playsinline
+                x5-video-player-type="h5"
+                muted
+                preload="auto"
+                disablepictureinpicture
+                controlslist="nofullscreen noremoteplayback"
+                >
                 <source src="pic/loading.mp4" type="video/mp4">
                 您的瀏覽器不支持視頻播放
             </video>
@@ -113,20 +166,28 @@
     </div>
 
     <script>
-        // 获取DOM元素
         const reloadBtn = document.getElementById('reloadBtn');
         const loadingVideo = document.getElementById('loadingVideo');
         const videoContainer = document.getElementById('videoContainer');
+        const progressSection = document.getElementById('progressSection');
+        const progressText = document.getElementById('progressText');
+        const progressFill = document.getElementById('progressFill');
 
-        // 按钮点击事件
+        function updateProgressBar(percent) {
+            const safePercent = Math.max(0, Math.min(100, percent));
+            progressFill.style.width = `${safePercent}%`;
+            progressText.textContent = `加載進度：${Math.round(safePercent)}%`;
+        }
+
         reloadBtn.addEventListener('click', function() {
             console.log('用户点击了重新载入按钮');
             
-            // 禁用按钮
             reloadBtn.disabled = true;
             console.log('按钮已禁用');
+
+            updateProgressBar(0);
+            progressSection.classList.add('show');
             
-            // 显示视频容器
             videoContainer.classList.add('show');
             console.log('视频容器已显示');
             
@@ -138,8 +199,17 @@
         // 视频播放完成事件
         loadingVideo.addEventListener('ended', function() {
             console.log('视频播放完成，准备刷新页面');
+            updateProgressBar(100);
             // 刷新页面
             location.reload();
+        });
+
+        loadingVideo.addEventListener('timeupdate', function() {
+            const duration = Number.isFinite(loadingVideo.duration) && loadingVideo.duration > 0
+                ? loadingVideo.duration
+                : 5;
+            const percent = (loadingVideo.currentTime / duration) * 100;
+            updateProgressBar(percent);
         });
     </script>
 </body>
